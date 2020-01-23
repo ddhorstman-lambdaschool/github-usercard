@@ -25,11 +25,11 @@ function showCardAndFollowers(user, showFollowers) {
       })
     .then(res =>
       res.data.forEach(
-        u => followingArray.push({name: u.login, followingArray: []})
+        u => user.followingArray.push({name: u.login, followingArray: []})
       ))
     .then(() => {
       if(showFollowers)
-      followingArray.forEach(user =>
+      user.followingArray.forEach(user =>
         //Using 'true' here instead will infinitely add followers recursively
         //Resist the temptation
         showCardAndFollowers(user, false)

@@ -1,21 +1,28 @@
 
-const followersArray = ['ddhorstman',
-  'tetondan',
-  'dustinmyers',
-  'justsml',
-  'luishrd',
-  'bigknell'
-];
+const user = 'ddhorstman';
+let followingArray = [];
 
-followersArray.forEach(user =>
-  axios
-    .get('https://api.github.com/users/' + user)
-    .then(res =>
+axios
+  .get('https://api.github.com/users/' + user)
+  .then(
+    res => {
       document.querySelector('.cards')
-        .appendChild(
-          createGitHubCard(res.data)))
-    .catch(e => console.log(e))
-);
+        .appendChild(createGitHubCard(res.data));
+      return axios.get('https://api.github.com/users/' + user + '/following');
+  })
+  .then(res => 
+    res.data.forEach(
+      u => followingArray.push(u.login)
+  ))
+  .then(() =>
+    followingArray.forEach(user =>
+      axios
+        .get('https://api.github.com/users/' + user)
+        .then(res => document.querySelector('.cards').appendChild(createGitHubCard(res.data)))
+    )
+  );
+
+
 function createGitHubCard(user) {
   const card = document.createElement('div');
   const img = document.createElement('img');
@@ -66,7 +73,7 @@ function createGitHubCard(user) {
            https://api.github.com/users/<your name>
 */
 
-//axios.get("https://api.github.com/users/ddhorstman").then( res => console.log(res));
+//axios.get("https://api.github.com/users/ddhorstman/following").then( res => console.log(res));
 
 /* Step 2: Inspect and study the data coming back, this is YOUR 
    github info! You will need to understand the structure of this 
@@ -110,18 +117,18 @@ const myData = {
 };
 
 
-/* Step 4: Pass the data received from Github into your function, 
+/* Step 4: Pass the data received from Github into your function,
            create a new component and add it to the DOM as a child of .cards
 */
 
 //document.querySelector('.cards').appendChild(createGitHubCard(myData));
 
-/* Step 5: Now that you have your own card getting added to the DOM, either 
-          follow this link in your browser https://api.github.com/users/<Your github name>/followers 
-          , manually find some other users' github handles, or use the list found 
+/* Step 5: Now that you have your own card getting added to the DOM, either
+          follow this link in your browser https://api.github.com/users/<Your github name>/followers
+          , manually find some other users' github handles, or use the list found
           at the bottom of the page. Get at least 5 different Github usernames and add them as
           Individual strings to the friendsArray below.
-          
+
           Using that array, iterate over it, requesting data for each user, creating a new card for each
           user, and adding that card to the DOM.
 */

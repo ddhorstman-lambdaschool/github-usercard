@@ -2,13 +2,47 @@
            (replacing the palceholder with your Github name):
            https://api.github.com/users/<your name>
 */
-
+//axios.get("https://api.github.com/users/ddhorstman").then( res => console.log(res));
 /* Step 2: Inspect and study the data coming back, this is YOUR 
    github info! You will need to understand the structure of this 
    data in order to use it to build your component function 
 
    Skip to Step 3.
 */
+const myData = {
+  avatar_url: "https://avatars0.githubusercontent.com/u/7649736?v=4",
+  bio: null,
+  blog: "",
+  company: null,
+  created_at: "2014-05-20T22:39:13Z",
+  email: null,
+  events_url: "https://api.github.com/users/ddhorstman/events{/privacy}",
+  followers: 0,
+  followers_url: "https://api.github.com/users/ddhorstman/followers",
+  following: 0,
+  following_url: "https://api.github.com/users/ddhorstman/following{/other_user}",
+  gists_url: "https://api.github.com/users/ddhorstman/gists{/gist_id}",
+  gravatar_id: "",
+  hireable: null,
+  html_url: "https://github.com/ddhorstman",
+  id: 7649736,
+  location: null,
+  login: "ddhorstman",
+  name: "David Horstman",
+  node_id: "MDQ6VXNlcjc2NDk3MzY=",
+  organizations_url: "https://api.github.com/users/ddhorstman/orgs",
+  public_gists: 0,
+  public_repos: 1,
+  received_events_url: "https://api.github.com/users/ddhorstman/received_events",
+  repos_url: "https://api.github.com/users/ddhorstman/repos",
+  site_admin: false,
+  starred_url: "https://api.github.com/users/ddhorstman/starred{/owner}{/repo}",
+  subscriptions_url: "https://api.github.com/users/ddhorstman/subscriptions",
+  type: "User",
+  updated_at: "2020-01-23T04:03:48Z",
+  url: "https://api.github.com/users/ddhorstman"
+};
+
 
 /* Step 4: Pass the data received from Github into your function, 
            create a new component and add it to the DOM as a child of .cards
@@ -25,7 +59,25 @@
 */
 
 const followersArray = [];
+function createGitHubCard(user) {
+  const card = document.createElement('div');
+  const img = document.createElement('img');
+  const cardInfo = document.createElement('div');
+  const name = document.createElement('h3');
+  const username = document.createElement('p');
+  const location = document.createElement('p');
+  const profile = document.createElement('p');
+  const url = document.createElement('a');
+  const followers = document.createElement('p');
+  const following = document.createElement('p');
+  const bio = document.createElement('p');
 
+
+  card.append(img, cardInfo);
+  cardInfo.append(name, username, location, profile, followers, following, bio);
+  profile.appendChild(url);
+  return card;
+} 
 /* Step 3: Create a function that accepts a single object as its only argument,
           Using DOM methods and properties, create a component that will return the following DOM element:
 
@@ -35,7 +87,7 @@ const followersArray = [];
     <h3 class="name">{users name}</h3>
     <p class="username">{users user name}</p>
     <p>Location: {users location}</p>
-    <p>Profile:  
+    <p>Profile:
       <a href={address to users github page}>{address to users github page}</a>
     </p>
     <p>Followers: {users followers count}</p>
@@ -46,7 +98,7 @@ const followersArray = [];
 
 */
 
-/* List of LS Instructors Github username's: 
+/* List of LS Instructors Github username's:
   tetondan
   dustinmyers
   justsml

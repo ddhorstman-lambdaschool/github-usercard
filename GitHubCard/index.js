@@ -2,25 +2,33 @@
 const user = 'ddhorstman';
 let followingArray = [];
 
-axios
-  .get('https://api.github.com/users/' + user)
-  .then(
-    res => {
-      document.querySelector('.cards')
-        .appendChild(createGitHubCard(res.data));
-      return axios.get('https://api.github.com/users/' + user + '/following');
-  })
-  .then(res => 
-    res.data.forEach(
-      u => followingArray.push(u.login)
-  ))
-  .then(() =>
-    followingArray.forEach(user =>
-      axios
-        .get('https://api.github.com/users/' + user)
-        .then(res => document.querySelector('.cards').appendChild(createGitHubCard(res.data)))
-    )
-  );
+const me = {
+  name: 'ddhorstman',
+  followingArray: []
+};
+
+showCardAndFollowers(me, true);
+
+function showCardAndFollowers(user, showFollowers) {
+  axios
+    .get('https://api.github.com/users/' + user.name)
+    .then(
+      res => {
+        document.querySelector('.cards')
+          .appendChild(createGitHubCard(res.data));
+        return axios.get('https://api.github.com/users/' + user.name + '/following');
+      })
+    .then(res =>
+      res.data.forEach(
+        u => followingArray.push({name: u.login, followingArray: []})
+      ))
+    .then(() => {
+      if(showFollowers)
+      followingArray.forEach(user =>
+        showCardAndFollowers(user, false)
+      );
+    });
+}
 
 
 function createGitHubCard(user) {

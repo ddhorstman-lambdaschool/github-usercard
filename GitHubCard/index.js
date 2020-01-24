@@ -17,12 +17,14 @@ showCardAndFollowers(me, true);
 function showCardAndFollowers(user, showFollowers) {
   axios
     .get('https://api.github.com/users/' + user.name)
+    .catch(e => console.log(e))
     .then(
       res => {
         document.querySelector('.cards')
           .appendChild(createGitHubCard(res.data));
         return axios.get('https://api.github.com/users/' + user.name + '/following');
     })
+    .catch(e => console.log(e))
     .then(res =>
       res.data.forEach(
         u => user.followingArray.push({name: u.login, followingArray: []})

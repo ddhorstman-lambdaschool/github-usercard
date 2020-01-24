@@ -7,7 +7,7 @@ const me = {
 
 showCardAndFollowers(me, true);
 
-/** Retrieve the GitHub Information for a given user
+/** Retrieve info from the GitHub API for a given user
  * and create a card for them, as well as all of their followers.
  * 
  * @param {Object} user An object with a 'name' containing your GitHub username
@@ -22,17 +22,17 @@ function showCardAndFollowers(user, showFollowers) {
         document.querySelector('.cards')
           .appendChild(createGitHubCard(res.data));
         return axios.get('https://api.github.com/users/' + user.name + '/following');
-      })
+    })
     .then(res =>
       res.data.forEach(
         u => user.followingArray.push({name: u.login, followingArray: []})
-      ))
+    ))
     .then(() => {
       if(showFollowers)
-      user.followingArray.forEach(user =>
+      user.followingArray.forEach(u =>
         //Using 'true' here instead will infinitely add followers recursively
         //Resist the temptation
-        showCardAndFollowers(user, false)
+        showCardAndFollowers(u, false)
       );
     });
 }
